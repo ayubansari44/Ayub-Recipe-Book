@@ -27,6 +27,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    //begin forms module
   }
 
   ngAfterViewChecked(): void{
