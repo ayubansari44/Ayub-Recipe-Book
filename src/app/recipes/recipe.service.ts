@@ -9,7 +9,8 @@ import { Subject } from 'rxjs';
 })
 export class RecipeService {
 
-  recipeSelected = new EventEmitter<Recipe>();
+  // recipeSelected = new EventEmitter<Recipe>();
+  recipeChanged = new Subject<Recipe[]>();
 
   constructor(private shoplistService: ShoppingListService)
   {}
@@ -44,6 +45,22 @@ export class RecipeService {
   addIngredientsToShopList(ingredients: Ingredient[])
   {
     this.shoplistService.addIngredients(ingredients);
+  }
+
+  addRecipe(recipe: Recipe){
+    this.recipes.push(recipe);
+    this.recipeChanged.next(this.recipes.slice());
+  }
+
+  updateRecipe(index: number, newRecipe: Recipe){
+    this.recipes[index] = newRecipe;
+    this.recipeChanged.next(this.recipes.slice());
+  }
+
+  deleteRecipe(index: number)
+  {
+    this.recipes.splice(index,1);
+    this.recipeChanged.next(this.recipes.slice());
   }
 
 }

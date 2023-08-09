@@ -7,8 +7,8 @@ import { Subject } from 'rxjs';
 })
 export class ShoppingListService {
 
-  // ingredientsChanged= new EventEmitter<Ingredient[]>();
   ingredientsChanged= new Subject<Ingredient[]>();
+  startedEditing = new Subject<number>();
 
 
   private ingredients: Ingredient[] = [
@@ -17,6 +17,10 @@ export class ShoppingListService {
   ];
 
   constructor() { }
+
+  getIngredient(index: number){
+    return this.ingredients[index];
+  }
 
   getIngredients() {
     return this.ingredients.slice();
@@ -33,7 +37,15 @@ export class ShoppingListService {
     this.ingredients.push(...ingredient); //use spread operator instead of map/loop
     // this.ingredientsChanged.emit(this.ingredients.slice());
     this.ingredientsChanged.next(this.ingredients.slice());
+  }
 
-   
+  updateIngredient(index: number, newIngredient: Ingredient){
+    this.ingredients[index] = newIngredient;
+    this.ingredientsChanged.next(this.ingredients.slice());
+  }
+
+  deleteIngredient(index: number){
+    this.ingredients.splice(index, 1);
+    this.ingredientsChanged.next(this.ingredients.slice());
   }
 }
